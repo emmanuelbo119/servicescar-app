@@ -1,0 +1,9 @@
+.modal-header .modal-title {
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-header .modal-title i {
+    margin-right: 10px;
+  }
+  
