@@ -1,3 +1,4 @@
+/* HomePage.js */
 import React from 'react';
 import { FaCar, FaHistory, FaPhone, FaTruck } from 'react-icons/fa';
 import { Carousel } from 'react-bootstrap';
@@ -5,10 +6,10 @@ import './HomePage.css';
 
 const HomePage = () => {
     const services = [
-        { id: 1, name: 'Mis Vehiculos', description: 'Ver Todos', icon: <FaCar /> },
+        { id: 1, name: 'Mis Vehiculos', description: 'Ver Todos', icon: <FaCar />, link: '/vehicles' },
         { id: 2, name: 'Mis Turnos', description: 'Ver todos los turnos históricos', icon: <FaHistory />, link: '/reservation' },
-        { id: 3, name: 'Contáctanos', description: 'Asesor en línea 24 hs', icon: <FaPhone /> },
-        { id: 4, name: 'Servicio de Grua', description: 'Traslado de vehículos', icon: <FaTruck /> },
+        { id: 3, name: 'Contáctanos', description: 'Asesor en línea 24 hs', icon: <FaPhone />, link: '/contact' },
+        { id: 4, name: 'Servicio de Grua', description: 'Traslado de vehículos', icon: <FaTruck />, link: '/tow-service' },
     ];
 
     return (
@@ -45,8 +46,8 @@ const HomePage = () => {
                             alt="First slide"
                         />
                         <Carousel.Caption>
-                            <h3>Servicio Agil </h3>
-                            <p>Nuestros mecanicos estan capacitados para realizar el mantenimiento de tu vehiculo lo más rapido posible.</p>
+                            <h3>Servicio Ágil</h3>
+                            <p>Nuestros mecánicos están capacitados para realizar el mantenimiento de tu vehículo lo más rápido posible.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
@@ -57,7 +58,7 @@ const HomePage = () => {
                         />
                         <Carousel.Caption>
                             <h3>Soporte Inmediato</h3>
-                            <p>Nuestros agentes estan disponibles 24 hs para acercarte todo lo que necesites.</p>
+                            <p>Nuestros agentes están disponibles 24 hs para acercarte todo lo que necesites.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                     <Carousel.Item>
@@ -68,7 +69,7 @@ const HomePage = () => {
                         />
                         <Carousel.Caption>
                             <h3>Servicio Especializado</h3>
-                            <p>Contamos con los mejores equipos de ultima tecnología</p>
+                            <p>Contamos con los mejores equipos de última tecnología.</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                 </Carousel>

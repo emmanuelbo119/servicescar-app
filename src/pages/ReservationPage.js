@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './ReservationPage.css';
@@ -16,6 +15,16 @@ function ReservationPage() {
   const [availableTimes, setAvailableTimes] = useState([]);
   const [turnoReservado, setTurnoReservado] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [showVehicleModal, setShowVehicleModal] = useState(false);
+  const [marcas, setMarcas] = useState([]);
+  const [modelos, setModelos] = useState([]);
+  const [newVehicle, setNewVehicle] = useState({
+    marca: '',
+    modelo: '',
+    anio: '',
+    patente: '',
+    color: ''
+  });
 
   useEffect(() => {
     const uuidUsuario = localStorage.getItem('uuidUsuario');
@@ -42,6 +51,17 @@ function ReservationPage() {
   }, []);
 
   useEffect(() => {
+    fetch('http://localhost:8000/marcas_vehiculos/?skip=0&limit=10')
+      .then(response => response.json())
+      .then(data => {
+        setMarcas(data);
+      })
+      .catch(error => {
+        console.error('Error fetching marcas:', error);
+      });
+  }, []);
+
+  useEffect(() => {
     if (selectedWorkshop) {
       fetch(`http://localhost:8000/tallerMecanico/${selectedWorkshop}/turnosDisponibles`)
         .then(response => response.json())
@@ -65,6 +85,19 @@ function ReservationPage() {
         });
     }
   }, [selectedWorkshop]);
+
+  useEffect(() => {
+    if (newVehicle.marca) {
+      fetch(`http://localhost:8000/marcas_vehiculos/modelos/?marca=${newVehicle.marca}`)
+        .then(response => response.json())
+        .then(data => {
+          setModelos(data);
+        })
+        .catch(error => {
+          console.error('Error fetching modelos:', error);
+        });
+    }
+  }, [newVehicle.marca]);
 
   const handleVehicleChange = (e) => {
     setSelectedVehicle(e.target.value);
@@ -114,80 +147,154 @@ function ReservationPage() {
     }
   };
 
+  const handleNewVehicleChange = (e) => {
+    const { name, value } = e.target;
+    setNewVehicle(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleNewVehicleSubmit = (e) => {
+    e.preventDefault();
+    fetch('http://localhost:8000/vehiculos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newVehicle)
+    })
+      .then(response => response.json())
+      .then(data => {
+        setVehicles(prevState => [...prevState, data]);
+        setShowVehicleModal(false);
+      })
+      .catch(error => {
+        console.error('Error creating vehicle:', error);
+      });
+  };
+
   const availableTimesForSelectedDate = availableTimes[selectedDate.toISOString().split('T')[0]] || [];
 
   return (
-    <Container className="reservation-container">
-      <Row className="justify-content-md-center">
-        <Col md={8}>
-          <div className="form-container">
-            <h1>Reserva tu Turno</h1>
-            <p>Elige el mejor momento para cuidar tu auto</p>
-            <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="formVehicle">
-                <Form.Label>Mis Vehículos</Form.Label>
-                <Form.Control as="select" value={selectedVehicle} onChange={handleVehicleChange} required>
-                  <option value="">Selecciona tu vehículo</option>
-                  {vehicles.map(vehicle => (
-                    <option key={vehicle.uuidvehiculo} value={vehicle.uuidvehiculo}>
-                      {`${vehicle.marca.nombre} - ${vehicle.modelo.nombre} -  ${vehicle.anio} - ${vehicle.patente}`}
-                    </option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="formWorkshop">
-                <Form.Label>Taller Mecánico</Form.Label>
-                <Form.Control as="select" value={selectedWorkshop} onChange={handleWorkshopChange} required>
-                  <option value="">Selecciona el taller mecánico</option>
-                  {workshops.map(workshop => (
-                    <option key={workshop.uuidTallermecanico} value={workshop.uuidTallermecanico}>{`${workshop.nombre} - ${workshop.servicios}`}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-
-              <Form.Group controlId="formDate">
-                <Form.Label>Fecha</Form.Label>
-                <DatePicker
-                  selected={selectedDate}
-                  onChange={handleDateChange}
-                  dateFormat="dd/MM/yyyy"
-                  className="form-control"
-                  minDate={new Date()}
-                  includeDates={availableDates}
-                  required
-                />
-              </Form.Group>
-
-              <Form.Group controlId="formTime">
-                <Form.Label>Hora</Form.Label>
-                <Form.Control
-                  as="select"
-                  value={selectedTime}
-                  onChange={handleTimeChange}
-                  required
-                >
-                  <option value="">Selecciona la hora</option>
-                  {availableTimesForSelectedDate.map((turno, index) => (
-                    <option key={index} value={turno.time}>{turno.time}</option>
-                  ))}
-                </Form.Control>
-              </Form.Group>
-
-              <Button variant="primary" type="submit">
-                Confirmar Reserva
-              </Button>
-            </Form>
+    <div className="reservation-container">
+      <div className="form-container">
+        <h1>Reserva tu Turno</h1>
+        <p>Elige el mejor momento para cuidar tu auto</p>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label>Mis Vehículos</label>
+            <div className="d-flex">
+              <select value={selectedVehicle} onChange={handleVehicleChange} required>
+                <option value="">Selecciona tu vehículo</option>
+                {vehicles.map(vehicle => (
+                  <option key={vehicle.uuidvehiculo} value={vehicle.uuidvehiculo}>
+                    {`${vehicle.marca.nombre} - ${vehicle.modelo.nombre} -  ${vehicle.anio} - ${vehicle.patente}`}
+                  </option>
+                ))}
+              </select>
+              <button type="button" className="add-vehicle-button" onClick={() => setShowVehicleModal(true)}>+</button>
+            </div>
           </div>
-        </Col>
-      </Row>
+
+          <div className="form-group">
+            <label>Taller Mecánico</label>
+            <select value={selectedWorkshop} onChange={handleWorkshopChange} required>
+              <option value="">Selecciona el taller mecánico</option>
+              {workshops.map(workshop => (
+                <option key={workshop.uuidTallermecanico} value={workshop.uuidTallermecanico}>{`${workshop.nombre} - ${workshop.servicios}`}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="date-picker-wrapper">
+            <label>Fecha</label>
+            <DatePicker
+              selected={selectedDate}
+              onChange={handleDateChange}
+              dateFormat="dd/MM/yyyy"
+              className="form-control date-picker"
+              minDate={new Date()}
+              includeDates={availableDates}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>Hora</label>
+            <select value={selectedTime} onChange={handleTimeChange} required>
+              <option value="">Selecciona la hora</option>
+              {availableTimesForSelectedDate.map((turno, index) => (
+                <option key={index} value={turno.time}>{turno.time}</option>
+              ))}
+            </select>
+          </div>
+
+          <button type="submit" className="confirm-button">Confirmar Reserva</button>
+        </form>
+      </div>
 
       <ReservaConfirmadaModal
         showModal={showModal}
         setShowModal={setShowModal}
         turnoReservado={turnoReservado}
       />
-    </Container>
+
+      {showVehicleModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowVehicleModal(false)}>&times;</span>
+            <h2>Crear Nuevo Vehículo</h2>
+            <form onSubmit={handleNewVehicleSubmit}>
+              <div className="form-group">
+                <label>Marca</label>
+                <select name="marca" value={newVehicle.marca} onChange={handleNewVehicleChange} required>
+                  <option value="">Selecciona la marca</option>
+                  {marcas.map(marca => (
+                    <option key={marca.uuidMarca} value={marca.uuidMarca}>
+                      {marca.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Modelo</label>
+                <select name="modelo" value={newVehicle.modelo} onChange={handleNewVehicleChange} required>
+                  <option value="">Selecciona el modelo</option>
+                  {modelos.map(modelo => (
+                    <option key={modelo.uuidModelo} value={modelo.uuidModelo}>
+                      {modelo.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Año</label>
+                <select name="anio" value={newVehicle.anio} onChange={handleNewVehicleChange} required>
+                  {Array.from(new Array(30), (v, i) => (
+                    <option key={i} value={2024 - i}>{2024 - i}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label>Patente</label>
+                <input type="text" name="patente" value={newVehicle.patente} onChange={handleNewVehicleChange} required />
+              </div>
+
+              <div className="form-group">
+                <label>Color</label>
+                <input type="text" name="color" value={newVehicle.color} onChange={handleNewVehicleChange} required />
+              </div>
+
+              <button type="submit" className="confirm-button">Crear Vehículo</button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 

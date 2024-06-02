@@ -4,8 +4,8 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import ReservationPage from './pages/ReservationPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+import ResetPasswordPage from './pages/ResetPasswordPage';
+import RegisterPage from './pages/RegisterPage';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -24,7 +24,9 @@ const App = () => {
             <Routes>
                 <Route path="/login" element={<LoginPage onLogin={logIn}/>} />
                 <Route path="/home" element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} />
+                <Route path="/reset-password" element={<ResetPasswordPage />} /> 
                 <Route path="*" element={<Navigate to="/login" />} />
+                <Route path="/register" element={<RegisterPage />} />
                 <Route path="/reservation" element={isLoggedIn ? <ReservationPage /> : <Navigate to="/login" />} />
             </Routes>
         </Router>

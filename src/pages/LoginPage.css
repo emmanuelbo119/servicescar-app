@@ -70,3 +70,17 @@
 .login-form .link:hover {
     text-decoration: underline;
 }
+
+
+.reset-password-link {
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+    color: #666;
+    text-decoration: none;
+}
+
+.reset-password-link:hover {
+    text-decoration: underline;
+    color: #666;
+}

@@ -14,11 +14,19 @@ const LoginPage = ({ onLogin }) => {
         e.preventDefault();
         try {
             await login(email, password);
-            onLogin()
-            navigate("/home")
+            onLogin();
+            navigate("/home");
         } catch (err) {
             setError('Invalid credentials');
         }
+    };
+
+    const handleResetPassword = () => {
+        navigate("/reset-password");
+    };
+
+    const handleRegister = () => {
+        navigate("/register");
     };
 
     return (
@@ -29,7 +37,7 @@ const LoginPage = ({ onLogin }) => {
                     <h2><span style={{ color: '#6c63ff' }}>ServiceCar</span></h2>
                     <p>Cuida lo importante, de tu auto, nos encargamos nosotros</p>
                     
-                    <form onSubmit={handleSubmit} >
+                    <form onSubmit={handleSubmit}>
                         <input
                             type="email"
                             placeholder="Email"
@@ -45,8 +53,10 @@ const LoginPage = ({ onLogin }) => {
                             required
                         />
                         {error && <div>{error}</div>}
-                        <button type="submit" >Log in</button>
+                        <button type="submit">Log in</button>
                     </form>
+                    <a onClick={handleResetPassword} className="reset-password-link">Restablecer Contraseña</a>
+                    <a onClick={handleRegister} className="register-link">Registrarse</a>
                 </div>
             </div>
         </div>

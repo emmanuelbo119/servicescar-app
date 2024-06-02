@@ -1,7 +1,9 @@
+/* HomePage.css */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
+  background-color: #f5f5f5;
 }
 
 .navbar {
@@ -9,9 +11,9 @@
   justify-content: space-between;
   align-items: center;
   background-color: #6c63ff;
-  padding: 25px 30px, 15px 30px;
+  padding: 25px 30px,25px,25px;
   border-radius: 8px;
-  margin-bottom:30px;
+  margin-bottom: 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -50,6 +52,7 @@
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
+  margin-bottom: 40px;
 }
 
 .service-card {
@@ -61,6 +64,11 @@
   text-align: center;
   flex-basis: calc(25% - 40px);
   box-sizing: border-box;
+  transition: transform 0.2s;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
 }
 
 .service-icon {
@@ -81,5 +89,16 @@
 
 .carousel-section {
   margin-top: 40px;
+}
 
+.carousel img {
+  border-radius: 8px;
+}
+
+.carousel-caption h3 {
+  color: #6c63ff;
+}
+
+.carousel-caption p {
+  color: #333;
 }
