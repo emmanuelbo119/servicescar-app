@@ -1,13 +1,13 @@
-/* HomePage.js */
 import React from 'react';
 import { FaCar, FaHistory, FaPhone, FaTruck } from 'react-icons/fa';
 import { Carousel } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './HomePage.css';
 
 const HomePage = () => {
     const services = [
-        { id: 1, name: 'Mis Vehiculos', description: 'Ver Todos', icon: <FaCar />, link: '/vehicles' },
-        { id: 2, name: 'Mis Turnos', description: 'Ver todos los turnos históricos', icon: <FaHistory />, link: '/reservation' },
+        { id: 1, name: 'Mis Vehiculos', description: 'Ver Todos', icon: <FaCar />, link: '/userVehiculos' },
+        { id: 2, name: 'Mis Turnos', description: 'Ver todos los turnos históricos', icon: <FaHistory />, link: '/turnos' },
         { id: 3, name: 'Contáctanos', description: 'Asesor en línea 24 hs', icon: <FaPhone />, link: '/contact' },
         { id: 4, name: 'Servicio de Grua', description: 'Traslado de vehículos', icon: <FaTruck />, link: '/tow-service' },
     ];
@@ -17,11 +17,11 @@ const HomePage = () => {
             <nav className="navbar">
                 <h1>ServiceCar</h1>
                 <div className="nav-links">
-                    <a href="/home">Home</a>
-                    <a href="/services">Servicios</a>
-                    <a href="/reservation">Turnos</a>
-                    <a href="/profile">Perfil</a>
-                    <a href="/logout">Logout</a>
+                    <Link to="/home">Home</Link>
+                    <Link to="/services">Servicios</Link>
+                    <Link to="/turnos">Turnos</Link>
+                    <Link to="/profile">Perfil</Link>
+                    <Link to="/logout">Logout</Link>
                 </div>
             </nav>
             <div className="welcome-section">
@@ -33,7 +33,9 @@ const HomePage = () => {
                     <div key={service.id} className="service-card">
                         <div className="service-icon">{service.icon}</div>
                         <h3>{service.name}</h3>
-                        <p>{service.description}</p>
+                        <Link className='link-card' to={service.link}>
+                            <p>{service.description}</p>
+                        </Link>
                     </div>
                 ))}
             </div>

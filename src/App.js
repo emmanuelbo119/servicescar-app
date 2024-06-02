@@ -6,6 +6,7 @@ import ReservationPage from './pages/ReservationPage';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import RegisterPage from './pages/RegisterPage';
+import UserVehicles from './pages/UserVehicles';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -28,6 +29,8 @@ const App = () => {
                 <Route path="*" element={<Navigate to="/login" />} />
                 <Route path="/register" element={<RegisterPage />} />
                 <Route path="/reservation" element={isLoggedIn ? <ReservationPage /> : <Navigate to="/login" />} />
+                <Route path="/home" element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} />
+                <Route path="/userVehiculos" element={isLoggedIn ? <UserVehicles /> : <Navigate to="/login" />} />
             </Routes>
         </Router>
     );

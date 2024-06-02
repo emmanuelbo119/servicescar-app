@@ -88,7 +88,7 @@ function ReservationPage() {
 
   useEffect(() => {
     if (newVehicle.marca) {
-      fetch(`http://localhost:8000/marcas_vehiculos/modelos/?marca=${newVehicle.marca}`)
+      fetch(`http://localhost:8000/marcas_vehiculos/${newVehicle.marca}/modelos/`)
         .then(response => response.json())
         .then(data => {
           setModelos(data);
@@ -117,6 +117,7 @@ function ReservationPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const uuidUsuario = localStorage.getItem('uuidUsuario');
     const availableTimesForSelectedDate = availableTimes[selectedDate.toISOString().split('T')[0]] || [];
     const selectedTurno = availableTimesForSelectedDate.find(t => t.time === selectedTime);
 
@@ -131,7 +132,8 @@ function ReservationPage() {
           vehicle: selectedVehicle,
           workshop: selectedWorkshop,
           date: selectedDate,
-          time: selectedTime
+          time: selectedTime,
+          usuario_id: uuidUsuario
         })
       })
         .then(response => response.json())
@@ -157,17 +159,34 @@ function ReservationPage() {
 
   const handleNewVehicleSubmit = (e) => {
     e.preventDefault();
+    const uuidUsuario = localStorage.getItem('uuidUsuario');
+    const newVehicleData = {
+      ...newVehicle,
+      usuario_id: uuidUsuario,
+      marca_id: newVehicle.marca,
+      modelo_id: newVehicle.modelo,
+      fechaCreacion: new Date().toISOString(),
+      fechaModificacion: new Date().toISOString()
+    };
     fetch('http://localhost:8000/vehiculos', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newVehicle)
+      body: JSON.stringify(newVehicleData)
     })
       .then(response => response.json())
       .then(data => {
         setVehicles(prevState => [...prevState, data]);
         setShowVehicleModal(false);
+        window.location.reload();
+        setNewVehicle({
+          marca: '',
+          modelo: '',
+          anio: '',
+          patente: '',
+          color: ''
+        });
       })
       .catch(error => {
         console.error('Error creating vehicle:', error);
@@ -251,7 +270,7 @@ function ReservationPage() {
                 <select name="marca" value={newVehicle.marca} onChange={handleNewVehicleChange} required>
                   <option value="">Selecciona la marca</option>
                   {marcas.map(marca => (
-                    <option key={marca.uuidMarca} value={marca.uuidMarca}>
+                    <option key={marca.uuidmarcavehiculo} value={marca.uuidmarcavehiculo}>
                       {marca.nombre}
                     </option>
                   ))}
@@ -263,7 +282,7 @@ function ReservationPage() {
                 <select name="modelo" value={newVehicle.modelo} onChange={handleNewVehicleChange} required>
                   <option value="">Selecciona el modelo</option>
                   {modelos.map(modelo => (
-                    <option key={modelo.uuidModelo} value={modelo.uuidModelo}>
+                    <option key={modelo.uuidmodelovehiculo} value={modelo.uuidmodelovehiculo}>
                       {modelo.nombre}
                     </option>
                   ))}
