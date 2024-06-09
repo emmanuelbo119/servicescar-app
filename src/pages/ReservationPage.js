@@ -123,18 +123,11 @@ function ReservationPage() {
 
     if (selectedTurno) {
       const { uuidTurno } = selectedTurno;
-      fetch(`http://localhost:8000/turnos/${uuidTurno}/reservar`, {
+      fetch(`http://localhost:8000/turnos/${uuidTurno}/reservar?vehiculo_id=${selectedVehicle}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          vehicle: selectedVehicle,
-          workshop: selectedWorkshop,
-          date: selectedDate,
-          time: selectedTime,
-          usuario_id: uuidUsuario
-        })
+        }
       })
         .then(response => response.json())
         .then(data => {

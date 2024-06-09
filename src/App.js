@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import RegisterPage from './pages/RegisterPage';
 import UserVehicles from './pages/UserVehicles';
+import ContactForm from './pages/ContactForm';
+import TurnosUserPage from './pages/TurnosUserPage';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -31,6 +33,8 @@ const App = () => {
                 <Route path="/reservation" element={isLoggedIn ? <ReservationPage /> : <Navigate to="/login" />} />
                 <Route path="/home" element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} />
                 <Route path="/userVehiculos" element={isLoggedIn ? <UserVehicles /> : <Navigate to="/login" />} />
+                <Route path="/contact" element={isLoggedIn ? <ContactForm /> : <Navigate to="/login" />} />
+                <Route path="/turnos" element={<TurnosUserPage />} />
             </Routes>
         </Router>
     );

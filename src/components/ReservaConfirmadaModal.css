@@ -6,4 +6,7 @@
   .modal-header .modal-title i {
     margin-right: 10px;
   }
-  
+  .modal-backdrop.show {
+    opacity: 0 !important; 
+    background-color: #000; 
+  }

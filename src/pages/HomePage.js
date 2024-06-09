@@ -19,7 +19,7 @@ const HomePage = () => {
                 <div className="nav-links">
                     <Link to="/home">Home</Link>
                     <Link to="/services">Servicios</Link>
-                    <Link to="/turnos">Turnos</Link>
+                    <Link to="/reservation">Turnos</Link>
                     <Link to="/profile">Perfil</Link>
                     <Link to="/logout">Logout</Link>
                 </div>

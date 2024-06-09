@@ -1,0 +1,54 @@
+.turnos-container {
+  padding: 20px;
+}
+
+.turnos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.turno-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.turno-card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.turno-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.turno-logo {
+  width: 50px;
+  height: 50px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.turno-card h3 {
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.turno-card p {
+  margin: 5px 0;
+  font-size: 1.1em;
+}
+
+.turno-card strong {
+  color: #333;
+}

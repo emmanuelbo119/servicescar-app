@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
 import registerIMG from '../assets/loginIMG.jpg';
-import { login } from '../services/authService';  // Importar la función de login
+import { login } from '../services/authService';
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
