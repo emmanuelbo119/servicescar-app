@@ -26,6 +26,12 @@ function ReservationPage() {
     color: ''
   });
 
+  const [includeTowService, setIncludeTowService] = useState(false);
+  const [showTowServicePopup, setShowTowServicePopup] = useState(false);
+  const [useCurrentLocation, setUseCurrentLocation] = useState(false);
+  const [towService, setTowService] = useState('');
+  const [currentLocation, setCurrentLocation] = useState('');
+
   useEffect(() => {
     const uuidUsuario = localStorage.getItem('uuidUsuario');
     
@@ -186,6 +192,40 @@ function ReservationPage() {
       });
   };
 
+  const handleIncludeTowServiceChange = (e) => {
+    if (e.target.checked) {
+      setShowTowServicePopup(true);
+    } else {
+      setIncludeTowService(false);
+      setUseCurrentLocation(false);
+      setTowService('');
+      setCurrentLocation('');
+    }
+  };
+
+  const handleTowServicePopupClose = () => {
+    setShowTowServicePopup(false);
+    setIncludeTowService(true);
+  };
+
+  const handleUseCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation(`Lat: ${latitude}, Lng: ${longitude}`);
+        },
+        () => {
+          // Simular ubicación si el usuario no comparte la ubicación
+          setCurrentLocation('Lat: -34.603722, Lng: -58.381592'); // Ejemplo: Buenos Aires
+        }
+      );
+    } else {
+      // Simular ubicación si la geolocalización no está disponible
+      setCurrentLocation('Lat: -34.603722, Lng: -58.381592'); // Ejemplo: Buenos Aires
+    }
+  };
+
   const availableTimesForSelectedDate = availableTimes[selectedDate.toISOString().split('T')[0]] || [];
 
   return (
@@ -241,6 +281,53 @@ function ReservationPage() {
               ))}
             </select>
           </div>
+
+          <div className="form-group">
+            <label>
+              <input
+                type="checkbox"
+                checked={includeTowService}
+                onChange={handleIncludeTowServiceChange}
+              />
+              Incluir traslado
+            </label>
+          </div>
+
+          {includeTowService && (
+            <>
+              <div className="form-group">
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={useCurrentLocation}
+                    onChange={(e) => {
+                      setUseCurrentLocation(e.target.checked);
+                      if (e.target.checked) {
+                        handleUseCurrentLocation();
+                      } else {
+                        setCurrentLocation('');
+                      }
+                    }}
+                  />
+                  Usar mi ubicación actual
+                </label>
+              </div>
+              {useCurrentLocation && currentLocation && (
+                <div className="form-group">
+                  <label>Ubicación Actual</label>
+                  <input type="text" value={currentLocation} readOnly />
+                </div>
+              )}
+              <div className="form-group">
+                <label>Servicio de Grúa</label>
+                <select value={towService} onChange={(e) => setTowService(e.target.value)} required>
+                  <option value="">Selecciona el servicio de grúa</option>
+                  <option value="basic">Servicio Básico</option>
+                  <option value="premium">Servicio Premium</option>
+                </select>
+              </div>
+            </>
+          )}
 
           <button type="submit" className="confirm-button">Confirmar Reserva</button>
         </form>
@@ -303,6 +390,20 @@ function ReservationPage() {
 
               <button type="submit" className="confirm-button">Crear Vehículo</button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {showTowServicePopup && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowTowServicePopup(false)}>&times;</span>
+            <h2>Servicio de Traslado</h2>
+            <p>
+              Nuestro servicio de traslado incluye el retiro del vehículo desde su domicilio, 
+              mantenimiento completo del vehículo y traslado de vuelta a su domicilio de origen.
+            </p>
+            <button className="confirm-button" onClick={handleTowServicePopupClose}>Aceptar</button>
           </div>
         </div>
       )}

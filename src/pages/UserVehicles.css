@@ -69,7 +69,11 @@
   height: 100px;
 }
 
-.edit-button {
+.buttons-container {
+  display: flex;
+}
+
+.button {
   margin-top: 10px;
   padding: 5px 10px;
   background-color: #6c63ff;

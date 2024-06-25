@@ -32,6 +32,25 @@ const UserVehicles = () => {
     }
   }, []);
 
+  const handleDeleteVehicle = (vehicleId) => {
+    fetch(`http://localhost:8000/vehiculos/${vehicleId}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        setVehicles(vehicles.filter(vehicle => vehicle.uuidvehiculo !== vehicleId));
+      } else {
+        console.error('Error deleting vehicle');
+      }
+    })
+    .catch(error => {
+      console.error('Error deleting vehicle:', error);
+    });
+  };
+
   return (
     <div className="container">
       <nav className="navbar">
@@ -57,11 +76,13 @@ const UserVehicles = () => {
                   <p><strong>Año:</strong> {vehicle.anio}</p>
                   <p><strong>Patente:</strong> {vehicle.patente}</p>
                   <p><strong>Color:</strong> {vehicle.color}</p>
-                  <button className="edit-button">Editar</button>
+                  <div className="buttons-container">
+                    <button className="edit-button" onClick={() => handleDeleteVehicle(vehicle.uuidvehiculo)}>Eliminar</button>
                 </div>
                 {brandIcons[vehicle.marca.nombre] && (
                   <img src={brandIcons[vehicle.marca.nombre]} alt={vehicle.marca.nombre} className="brand-icon" />
                 )}
+              </div>
               </div>
             ))
           )}
