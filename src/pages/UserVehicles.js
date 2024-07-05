@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import VehicleForm from '../components/VehicleForm';
 import './UserVehicles.css';
 
 const UserVehicles = () => {
   const [vehicles, setVehicles] = useState([]);
+  const [showVehicleModal, setShowVehicleModal] = useState(false);
+  const [currentVehicle, setCurrentVehicle] = useState(null);
   const brandIcons = {
     'Ford': '/icons/ford.png',
     'Chevrolet': '/icons/chevrolet.png',
@@ -51,6 +54,26 @@ const UserVehicles = () => {
     });
   };
 
+  const handleVehicleCreatedOrUpdated = (vehicle) => {
+    setVehicles((prevState) => {
+      const existingVehicleIndex = prevState.findIndex(v => v.uuidvehiculo === vehicle.uuidvehiculo);
+      if (existingVehicleIndex !== -1) {
+        const updatedVehicles = [...prevState];
+        updatedVehicles[existingVehicleIndex] = vehicle;
+        return updatedVehicles;
+      } else {
+        return [...prevState, vehicle];
+      }
+    });
+    setShowVehicleModal(false);
+    window.location.reload();
+  };
+
+  const handleEditVehicle = (vehicle) => {
+    setCurrentVehicle(vehicle);
+    setShowVehicleModal(true);
+  };
+
   return (
     <div className="container">
       <nav className="navbar">
@@ -65,6 +88,7 @@ const UserVehicles = () => {
       </nav>
       <div className="vehicles-container">
         <h1>Mis Vehículos</h1>
+        <button className="add-vehicle-button" onClick={() => { setCurrentVehicle(null); setShowVehicleModal(true); }}>Añadir Vehículo</button>
         <div className="vehicles-list">
           {vehicles.length === 0 ? (
             <p>No tienes vehículos registrados.</p>
@@ -77,17 +101,28 @@ const UserVehicles = () => {
                   <p><strong>Patente:</strong> {vehicle.patente}</p>
                   <p><strong>Color:</strong> {vehicle.color}</p>
                   <div className="buttons-container">
+                    <button className="edit-button" onClick={() => handleEditVehicle(vehicle)}>Editar</button>
                     <button className="edit-button" onClick={() => handleDeleteVehicle(vehicle.uuidvehiculo)}>Eliminar</button>
+                  </div>
                 </div>
-                {brandIcons[vehicle.marca.nombre] && (
-                  <img src={brandIcons[vehicle.marca.nombre]} alt={vehicle.marca.nombre} className="brand-icon" />
-                )}
-              </div>
+                <div className="brand-icon-container">
+                  {brandIcons[vehicle.marca.nombre] && (
+                    <img src={brandIcons[vehicle.marca.nombre]} alt={vehicle.marca.nombre} className="brand-icon" />
+                  )}
+                </div>
               </div>
             ))
           )}
         </div>
       </div>
+      {showVehicleModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={() => setShowVehicleModal(false)}>&times;</span>
+            <VehicleForm onVehicleCreatedOrUpdated={handleVehicleCreatedOrUpdated} vehicle={currentVehicle} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -9,6 +9,7 @@ import RegisterPage from './pages/RegisterPage';
 import UserVehicles from './pages/UserVehicles';
 import ContactForm from './pages/ContactForm';
 import TurnosUserPage from './pages/TurnosUserPage';
+import AboutUs from './pages/AboutUs';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -30,6 +31,7 @@ const App = () => {
                 <Route path="/reset-password" element={<ResetPasswordPage />} /> 
                 <Route path="*" element={<Navigate to="/login" />} />
                 <Route path="/register" element={<RegisterPage />} />
+                <Route path="/profile" element={<AboutUs />} />
                 <Route path="/reservation" element={isLoggedIn ? <ReservationPage /> : <Navigate to="/login" />} />
                 <Route path="/home" element={isLoggedIn ? <HomePage /> : <Navigate to="/login" />} />
                 <Route path="/userVehiculos" element={isLoggedIn ? <UserVehicles /> : <Navigate to="/login" />} />

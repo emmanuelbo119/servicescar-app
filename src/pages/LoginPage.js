@@ -13,9 +13,11 @@ const LoginPage = ({ onLogin }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await login(email, password);
-            onLogin();
-            navigate("/home");
+            const token = await login(email, password);
+            if (token) { 
+                onLogin();
+                navigate("/home");
+            }
         } catch (err) {
             setError('Invalid credentials');
         }

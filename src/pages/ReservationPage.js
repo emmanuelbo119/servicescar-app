@@ -216,13 +216,11 @@ function ReservationPage() {
           setCurrentLocation(`Lat: ${latitude}, Lng: ${longitude}`);
         },
         () => {
-          // Simular ubicación si el usuario no comparte la ubicación
-          setCurrentLocation('Lat: -34.603722, Lng: -58.381592'); // Ejemplo: Buenos Aires
+          setCurrentLocation('Lat: -34.603722, Lng: -58.381592'); 
         }
       );
     } else {
-      // Simular ubicación si la geolocalización no está disponible
-      setCurrentLocation('Lat: -34.603722, Lng: -58.381592'); // Ejemplo: Buenos Aires
+      setCurrentLocation('Lat: -34.603722, Lng: -58.381592');
     }
   };
 

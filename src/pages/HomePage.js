@@ -18,10 +18,10 @@ const HomePage = () => {
                 <h1>ServiceCar</h1>
                 <div className="nav-links">
                     <Link to="/home">Home</Link>
-                    <Link to="/services">Servicios</Link>
+                    <Link to="/services">Taller Mecánico</Link>
                     <Link to="/reservation">Turnos</Link>
-                    <Link to="/profile">Perfil</Link>
-                    <Link to="/logout">Logout</Link>
+                    <Link to="/profile">Sobre Nosotros</Link>
+                    <Link to="/logout">Salir</Link>
                 </div>
             </nav>
             <div className="welcome-section">

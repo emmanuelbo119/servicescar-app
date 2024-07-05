@@ -1,80 +1,111 @@
+/* UserVehicles.css */
 .container {
   padding: 20px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  width: 100%;
+  max-width: 1200px;
+  background-color: #6c63ff;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .nav-links a {
   margin: 0 10px;
   text-decoration: none;
-  color: #000;
+  color: white;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
 }
 
 .vehicles-container {
   text-align: center;
+  width: 100%;
+  max-width: 1200px; 
+  margin-top: 20px;
 }
 
 .vehicles-container h1 {
   margin-bottom: 20px;
+  font-size: 2rem;
+  color: #333;
 }
 
 .vehicles-list {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap; 
   gap: 20px;
+  justify-content: center; 
 }
 
 .vehicle-card {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   background-color: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
-  width: 100%;
-  max-width: 800px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: calc(50% - 20px); 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
   text-align: left;
+  flex-direction: row; 
 }
 
 .vehicle-info {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .vehicle-card h2 {
   margin-top: 0;
   margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #333;
 }
 
 .vehicle-card p {
   margin: 5px 0;
+  color: #666;
 }
 
 .vehicle-card:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.brand-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
 }
 
 .brand-icon {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 }
 
 .buttons-container {
   display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.button {
-  margin-top: 10px;
+.edit-button {
   padding: 5px 10px;
   background-color: #6c63ff;
   color: white;
@@ -85,4 +116,57 @@
 
 .edit-button:hover {
   background-color: #433aeb;
+}
+
+.add-vehicle-button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-vehicle-button:hover {
+  background-color: #433aeb;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+  width: 500px;
+  max-width: 90%;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.modal-content .confirm-button {
+  margin-top: 20px;
+  display: inline-block;
+  width: auto;
 }

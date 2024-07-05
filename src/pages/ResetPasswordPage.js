@@ -32,7 +32,7 @@ const ResetPasswordPage = () => {
             setMessage(data.msg);
             setTimeout(() => {
                 navigate("/login");
-            }, 3000); // Redirigir a la página de login después de 3 segundos
+            }, 3000); 
         } catch (error) {
             setMessage('Error resetting password');
         }

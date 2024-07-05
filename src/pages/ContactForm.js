@@ -19,7 +19,6 @@ const ContactForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí puedes agregar la lógica para enviar el formulario al backend
     console.log('Formulario enviado:', formData);
     setShowModal(true);
   };
