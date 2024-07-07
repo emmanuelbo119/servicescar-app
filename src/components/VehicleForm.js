@@ -60,7 +60,8 @@ const VehicleForm = ({ onVehicleCreatedOrUpdated, vehicle }) => {
       ...newVehicle,
       usuario_id: uuidUsuario,
       fechaCreacion: vehicle ? vehicle.fechaCreacion : new Date().toISOString(),
-      fechaModificacion: new Date().toISOString()
+      fechaModificacion: new Date().toISOString(),
+      uuidvehiculo: vehicle ? vehicle.uuidvehiculo : undefined 
     };
 
     const url = vehicle ? `http://localhost:8000/vehiculos/${vehicle.uuidvehiculo}` : 'http://localhost:8000/vehiculos';
@@ -81,7 +82,8 @@ const VehicleForm = ({ onVehicleCreatedOrUpdated, vehicle }) => {
           modelo_id: '',
           anio: '',
           patente: '',
-          color: ''
+          color: '',
+          kilometraje: ''
         });
       })
       .catch(error => {
@@ -134,6 +136,11 @@ const VehicleForm = ({ onVehicleCreatedOrUpdated, vehicle }) => {
         <div className="form-group">
           <label>Color</label>
           <input type="text" name="color" value={newVehicle.color} onChange={handleNewVehicleChange} required />
+        </div>
+
+        <div className="form-group">
+          <label>Kilometraje</label>
+          <input type="number" name="kilometraje" value={newVehicle.kilometraje} onChange={handleNewVehicleChange} required />
         </div>
 
         <button type="submit" className="confirm-button">{vehicle ? 'Actualizar Vehículo' : 'Crear Vehículo'}</button>

@@ -2,6 +2,8 @@ import React from 'react';
 import { FaCar, FaHistory, FaPhone, FaTruck } from 'react-icons/fa';
 import { Carousel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import './HomePage.css';
 
 const HomePage = () => {
@@ -14,16 +16,7 @@ const HomePage = () => {
 
     return (
         <div className="container">
-            <nav className="navbar">
-                <h1>ServiceCar</h1>
-                <div className="nav-links">
-                    <Link to="/home">Home</Link>
-                    <Link to="/services">Taller Mecánico</Link>
-                    <Link to="/reservation">Turnos</Link>
-                    <Link to="/profile">Sobre Nosotros</Link>
-                    <Link to="/logout">Salir</Link>
-                </div>
-            </nav>
+            <Navbar />
             <div className="welcome-section">
                 <h2>Bienvenido a ServiceCar</h2>
                 <p>Administra y solicita turnos de servicio de mantenimiento de manera fácil y rápida.</p>
@@ -76,6 +69,7 @@ const HomePage = () => {
                     </Carousel.Item>
                 </Carousel>
             </div>
+            <Footer />
         </div>
     );
 };

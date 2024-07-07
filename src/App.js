@@ -10,6 +10,7 @@ import UserVehicles from './pages/UserVehicles';
 import ContactForm from './pages/ContactForm';
 import TurnosUserPage from './pages/TurnosUserPage';
 import AboutUs from './pages/AboutUs';
+import CreateTurno from './pages/MechanicShopsPage';
 
 const App = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -37,6 +38,7 @@ const App = () => {
                 <Route path="/userVehiculos" element={isLoggedIn ? <UserVehicles /> : <Navigate to="/login" />} />
                 <Route path="/contact" element={isLoggedIn ? <ContactForm /> : <Navigate to="/login" />} />
                 <Route path="/turnos" element={<TurnosUserPage />} />
+                <Route path="/CreateTurno" element={<CreateTurno />} />
             </Routes>
         </Router>
     );

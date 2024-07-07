@@ -1,0 +1,31 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #6c63ff;
+    padding: 60px 20px;
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+.navbar-title-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar-title {
+    margin: 0;
+    font-size: 1.5rem;
+    padding-left: 10px;
+}
+
+.nav-links a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}

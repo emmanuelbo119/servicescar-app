@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import VehicleForm from '../components/VehicleForm';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import './UserVehicles.css';
 
 const UserVehicles = () => {
@@ -17,7 +19,6 @@ const UserVehicles = () => {
     'Citroën': '/icons/citroen.png',
     'Nissan': '/icons/nissan.png',
     'Honda': '/icons/honda.png'
-    // Añadir más marcas e iconos según sea necesario
   };
 
   useEffect(() => {
@@ -76,16 +77,7 @@ const UserVehicles = () => {
 
   return (
     <div className="container">
-      <nav className="navbar">
-        <h1>ServiceCar</h1>
-        <div className="nav-links">
-          <a href="/home">Home</a>
-          <a href="/services">Servicios</a>
-          <a href="/reservation">Turnos</a>
-          <a href="/profile">Perfil</a>
-          <a href="/logout">Logout</a>
-        </div>
-      </nav>
+      <Navbar />
       <div className="vehicles-container">
         <h1>Mis Vehículos</h1>
         <button className="add-vehicle-button" onClick={() => { setCurrentVehicle(null); setShowVehicleModal(true); }}>Añadir Vehículo</button>
@@ -123,6 +115,7 @@ const UserVehicles = () => {
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 };

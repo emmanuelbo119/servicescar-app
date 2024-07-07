@@ -3,6 +3,11 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import './ReservationPage.css';
 import ReservaConfirmadaModal from '../components/ReservaConfirmadaModal';
+import Footer from '../components/Footer';
+import Navbar from '../components/Navbar';
+import incluirTrasladoPaso1 from '../assets/incluir_retiro_paso1.png';
+import incluirTrasladoPaso2 from '../assets/incluir_retiro_paso2.png';
+import incluirTrasladoPaso3 from '../assets/incluir_retiro_paso3.png';
 
 function ReservationPage() {
   const [vehicles, setVehicles] = useState([]);
@@ -28,9 +33,8 @@ function ReservationPage() {
 
   const [includeTowService, setIncludeTowService] = useState(false);
   const [showTowServicePopup, setShowTowServicePopup] = useState(false);
-  const [useCurrentLocation, setUseCurrentLocation] = useState(false);
   const [towService, setTowService] = useState('');
-  const [currentLocation, setCurrentLocation] = useState('');
+  const [currentLocation, setCurrentLocation] = useState({ lat: null, lng: null });
 
   useEffect(() => {
     const uuidUsuario = localStorage.getItem('uuidUsuario');
@@ -104,6 +108,36 @@ function ReservationPage() {
         });
     }
   }, [newVehicle.marca]);
+
+  const getCurrentLocation = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation({ lat: latitude, lng: longitude });
+          showMap(latitude, longitude);
+        },
+        () => {
+          console.error('Error getting current location');
+        }
+      );
+    } else {
+      console.error('Geolocation is not supported by this browser.');
+    }
+  };
+
+  const showMap = (lat, lng) => {
+    const map = new window.google.maps.Map(document.getElementById('map'), {
+      center: { lat, lng },
+      zoom: 15
+    });
+
+    new window.google.maps.Marker({
+      position: { lat, lng },
+      map,
+      title: 'Ubicación Actual'
+    });
+  };
 
   const handleVehicleChange = (e) => {
     setSelectedVehicle(e.target.value);
@@ -193,48 +227,30 @@ function ReservationPage() {
   };
 
   const handleIncludeTowServiceChange = (e) => {
-    if (e.target.checked) {
-      setShowTowServicePopup(true);
-    } else {
-      setIncludeTowService(false);
-      setUseCurrentLocation(false);
-      setTowService('');
-      setCurrentLocation('');
-    }
+    setShowTowServicePopup(true);
+    setIncludeTowService(e.target.checked);
   };
 
   const handleTowServicePopupClose = () => {
     setShowTowServicePopup(false);
     setIncludeTowService(true);
-  };
-
-  const handleUseCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCurrentLocation(`Lat: ${latitude}, Lng: ${longitude}`);
-        },
-        () => {
-          setCurrentLocation('Lat: -34.603722, Lng: -58.381592'); 
-        }
-      );
-    } else {
-      setCurrentLocation('Lat: -34.603722, Lng: -58.381592');
-    }
+    getCurrentLocation();
   };
 
   const availableTimesForSelectedDate = availableTimes[selectedDate.toISOString().split('T')[0]] || [];
 
   return (
     <div className="reservation-container">
+      <Navbar />
       <div className="form-container">
         <h1>Reserva tu Turno</h1>
-        <p>Elige el mejor momento para cuidar tu auto</p>
+        <div className='principa-div'>
+          <h5>Elige el mejor momento para cuidar tu auto</h5>
+        </div>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Mis Vehículos</label>
-            <div className="d-flex">
+            <div className="d-flex align-items-center">
               <select value={selectedVehicle} onChange={handleVehicleChange} required>
                 <option value="">Selecciona tu vehículo</option>
                 {vehicles.map(vehicle => (
@@ -258,7 +274,7 @@ function ReservationPage() {
           </div>
 
           <div className="date-picker-wrapper">
-            <label>Fecha</label>
+            <label className='textoFecha'>Fecha</label>
             <DatePicker
               selected={selectedDate}
               onChange={handleDateChange}
@@ -290,40 +306,9 @@ function ReservationPage() {
               Incluir traslado
             </label>
           </div>
-
           {includeTowService && (
             <>
-              <div className="form-group">
-                <label>
-                  <input
-                    type="checkbox"
-                    checked={useCurrentLocation}
-                    onChange={(e) => {
-                      setUseCurrentLocation(e.target.checked);
-                      if (e.target.checked) {
-                        handleUseCurrentLocation();
-                      } else {
-                        setCurrentLocation('');
-                      }
-                    }}
-                  />
-                  Usar mi ubicación actual
-                </label>
-              </div>
-              {useCurrentLocation && currentLocation && (
-                <div className="form-group">
-                  <label>Ubicación Actual</label>
-                  <input type="text" value={currentLocation} readOnly />
-                </div>
-              )}
-              <div className="form-group">
-                <label>Servicio de Grúa</label>
-                <select value={towService} onChange={(e) => setTowService(e.target.value)} required>
-                  <option value="">Selecciona el servicio de grúa</option>
-                  <option value="basic">Servicio Básico</option>
-                  <option value="premium">Servicio Premium</option>
-                </select>
-              </div>
+              <div id="map" style={{ width: '100%', height: '400px', marginTop: '20px' }}></div>
             </>
           )}
 
@@ -397,14 +382,23 @@ function ReservationPage() {
           <div className="modal-content">
             <span className="close" onClick={() => setShowTowServicePopup(false)}>&times;</span>
             <h2>Servicio de Traslado</h2>
-            <p>
-              Nuestro servicio de traslado incluye el retiro del vehículo desde su domicilio, 
-              mantenimiento completo del vehículo y traslado de vuelta a su domicilio de origen.
-            </p>
+            <div className="tow-service-step">
+              <p>Paso 1: Retiramos tu vehiculo desde la ubicación de tu preferencia</p>
+              <img src={incluirTrasladoPaso1} alt="Paso 1" />
+            </div>
+            <div className="tow-service-step">
+              <p>Paso 2: Realizamos el mantenimiento que tu vehiculo necesita</p>
+              <img src={incluirTrasladoPaso2} alt="Paso 2" />
+            </div>
+            <div className="tow-service-step">
+              <p>Paso 3: Trasladamos de nuevo tu vehiculo para que no tengas que moverte de tu casa</p>
+              <img src={incluirTrasladoPaso3} alt="Paso 3" />
+            </div>
             <button className="confirm-button" onClick={handleTowServicePopupClose}>Aceptar</button>
           </div>
         </div>
       )}
+      <Footer />
     </div>
   );
 }
