@@ -1,0 +1,135 @@
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 25px;
+  background-color: #f5f5f5;
+}
+
+.turno-detail-container {
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.turno-header {
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.turno-header h2 {
+  margin: 0;
+  font-size: 1.8em;
+  color: #333;
+}
+
+.turno-header p {
+  margin-top: 25px;
+  font-size: 1.1em;
+  color: #666;
+}
+
+.turno-header .info {
+  display: flex;
+  flex-direction: column;
+}
+
+.turno-details {
+  margin-top: 20px;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.details-header h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.detail-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.detail-table th, .detail-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.detail-table th {
+  background-color: #f4f4f4;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.detail-actions button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  color: #6c63ff;
+}
+
+.detail-actions button:hover {
+  color: #433aeb;
+}
+
+.add-detail-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.info2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.total-cost {
+  margin-top: 20px;
+  font-size: 1.2em;
+  text-align: right;
+  padding-right: 10px;
+  border-top: 1px solid #ddd;
+  padding-top: 10px;
+}
+
+.button-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.button-container button {
+  padding: 10px 20px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button-container button:hover {
+  background-color: #433aeb;
+}

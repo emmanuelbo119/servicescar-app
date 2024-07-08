@@ -92,6 +92,7 @@ const UserVehicles = () => {
                   <p><strong>Año:</strong> {vehicle.anio}</p>
                   <p><strong>Patente:</strong> {vehicle.patente}</p>
                   <p><strong>Color:</strong> {vehicle.color}</p>
+                  <p><strong>Kilometraje:</strong> {vehicle.kilometraje}</p>
                   <div className="buttons-container">
                     <button className="edit-button" onClick={() => handleEditVehicle(vehicle)}>Editar</button>
                     <button className="edit-button" onClick={() => handleDeleteVehicle(vehicle.uuidvehiculo)}>Eliminar</button>

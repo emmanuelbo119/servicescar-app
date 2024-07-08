@@ -8,7 +8,8 @@ const VehicleForm = ({ onVehicleCreatedOrUpdated, vehicle }) => {
     modelo_id: '',
     anio: '',
     patente: '',
-    color: ''
+    color: '',
+    kilometraje : ''
   });
 
   useEffect(() => {
@@ -27,7 +28,8 @@ const VehicleForm = ({ onVehicleCreatedOrUpdated, vehicle }) => {
         modelo_id: vehicle.modelo.uuidmodelovehiculo,
         anio: vehicle.anio,
         patente: vehicle.patente,
-        color: vehicle.color
+        color: vehicle.color,
+        kilometraje: vehicle.kilometraje
       });
     }
   }, [vehicle]);
